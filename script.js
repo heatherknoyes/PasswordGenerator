@@ -6,10 +6,7 @@ function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
-
-
   passwordText.value = password;
-
 }
 
 function generatePassword() {
@@ -23,6 +20,7 @@ function generatePassword() {
 
   var passwordCriteria = "";
 
+  /* Checks to make sure the password is the correct length */
   var passwordLength = window.prompt("Please enter the length of your password: ");
   if (passwordLength < 8) {
     window.alert("Password must be equal to or longer than 8 characters. Please try again.");
@@ -30,11 +28,13 @@ function generatePassword() {
     window.alert("Password must be equal to or smaller than 128 characters. Please try again.");
   }
 
+  /* Finds out which portions should be included in the base string from prompts to the user */
   var numberConfirm = window.confirm("Do you want lowercase letters in your password?");
   var lowerConfirm = window.confirm("Do you want uppercase letters in your password?");
   var upperConfirm = window.confirm("Do you want numbers in your password?");
   var specialConfirm = window.confirm("Do you want special characters in your password?");
 
+  /* Builds the base string where you will get characters from */
   if (numberConfirm) {
     passwordCriteria += characters.numbers;
   }
@@ -48,7 +48,18 @@ function generatePassword() {
     passwordCriteria += characters.specialCharacters;
   }
 
-  console.log(passwordCriteria);
+  /* Generates the random password */
+  var password="";
+  for (var i=0; i<passwordLength; i++) {
+    var randomInt = getRandomInt(passwordCriteria.length);
+    password += passwordCriteria[randomInt];
+  }
+
+  return password;
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 }
 
 // Add event listener to generate button
