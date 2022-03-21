@@ -21,45 +21,45 @@ function generatePassword() {
 
   /* Checks to make sure the password is the correct length */
   var passwordLength = window.prompt("Please enter the length of your password: ");
-  if (passwordLength < 8) {
+  if (passwordLength < 4) {
     window.alert("Password must be equal to or longer than 8 characters. Please try again.");
   } else if (passwordLength > 128) {
     window.alert("Password must be equal to or smaller than 128 characters. Please try again.");
-  }
-
-  /* Finds out which portions should be included in the base string from prompts to the user */
-  var numberConfirm = window.confirm("Do you want lowercase letters in your password?");
-  var lowerConfirm = window.confirm("Do you want uppercase letters in your password?");
-  var upperConfirm = window.confirm("Do you want numbers in your password?");
-  var specialConfirm = window.confirm("Do you want special characters in your password?");
-
-  if (!(numberConfirm || lowerConfirm || upperConfirm || specialConfirm)) {
-    window.alert("You need to choose at least one criteria for your password, please try again.");
   } else {
-    /* Builds the base string where you will get characters from */
-    if (numberConfirm) {
-      passwordCriteria += characters.numbers;
+      /* Finds out which portions should be included in the base string from prompts to the user */
+    var numberConfirm = window.confirm("Do you want lowercase letters in your password?");
+    var lowerConfirm = window.confirm("Do you want uppercase letters in your password?");
+    var upperConfirm = window.confirm("Do you want numbers in your password?");
+    var specialConfirm = window.confirm("Do you want special characters in your password?");
+    if (!(numberConfirm || lowerConfirm || upperConfirm || specialConfirm)) {
+      window.alert("You need to choose at least one criteria for your password, please try again.");
+    } else {
+      /* Builds the base string where you will get characters from */
+      if (numberConfirm) {
+        passwordCriteria += characters.numbers;
+      }
+      if (lowerConfirm) {
+        passwordCriteria += characters.lowercase;
+      }
+      if (upperConfirm) {
+        passwordCriteria += characters.uppercase;
+      }
+      if (specialConfirm) {
+        passwordCriteria += characters.specialCharacters;
+      }
+  
+      /* Generates the random password */
+      var password = generateString(passwordCriteria, passwordLength);
+      var allPresent = {numberConfirm, lowerConfirm, upperConfirm, specialConfirm};
+  
+      /* Checks to make sure that all user requirements are present in the randomized password */
+      while (!checkIfAllPresent(allPresent, password, characters)) {
+        console.log("REMADE PASSWORD");
+        password = generateString(passwordCriteria, passwordLength);
+      }
+      
+      return password;
     }
-    if (lowerConfirm) {
-      passwordCriteria += characters.lowercase;
-    }
-    if (upperConfirm) {
-      passwordCriteria += characters.uppercase;
-    }
-    if (specialConfirm) {
-      passwordCriteria += characters.specialCharacters;
-    }
-
-    /* Generates the random password */
-    var password = generateString(passwordCriteria, passwordLength);
-    var allPresent = {numberConfirm, lowerConfirm, upperConfirm, specialConfirm};
-
-    while (!checkIfAllPresent(allPresent, password, characters)) {
-      password = generateString(passwordCriteria, passwordLength);
-
-    }
-    
-    return password;
   }
 }
 
@@ -85,28 +85,29 @@ function checkIfAllPresent(allPresent, password, characters) {
     }
   }
 
-    // Check if uppercase are present in the password
-    if (allPresent.upperConfirm) {
-      for (var i=0; i<password.length; i++) {
-        if (characters.uppercase.includes(password[i])) {
-          checkArray.upperConfirm = true;
-        }
+  // Check if uppercase are present in the password
+  if (allPresent.upperConfirm) {
+    for (var i=0; i<password.length; i++) {
+      if (characters.uppercase.includes(password[i])) {
+        checkArray.upperConfirm = true;
       }
     }
+  }
 
-    // Check if uppercase are present in the password
-    if (allPresent.specialConfirm) {
-      for (var i=0; i<password.length; i++) {
-        if (characters.specialCharacters.includes(password[i])) {
-          checkArray.specialConfirm = true;
-        }
+  // Check if uppercase are present in the password
+  if (allPresent.specialConfirm) {
+    for (var i=0; i<password.length; i++) {
+      if (characters.specialCharacters.includes(password[i])) {
+        checkArray.specialConfirm = true;
       }
     }
+  }
+
     
   // This checks the two boolean maps
   var i=0;
-  while (afterCheckPresent && i<allPresent.length) {
-    if (allPresent[i] !== checkArray[i]) {
+  while (afterCheckPresent && i<Object.values(allPresent).length) {
+    if (Object.values(allPresent)[i] !== Object.values(checkArray)[i]) {
       afterCheckPresent = false;
     }
     i++;
@@ -130,11 +131,3 @@ function generateString(criteria, passwordLength) {
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-
-
-// Add functionality for checking to make sure that the password has everything by checking what was generated and see if it has everything and then if not then keep generating until it does
-
-
-
-
-
