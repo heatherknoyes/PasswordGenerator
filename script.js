@@ -10,15 +10,14 @@ function writePassword() {
 }
 
 function generatePassword() {
+  var passwordCriteria = "";
   var characters = {
     lowercase: "abcdefghijklmnopqrstuvwxyz",
     uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     /* need to add quotes */
-    specialCharacters: " !#$%&()*+,-./:;<=>?@[\]^_`{|}~",
+    specialCharacters: " !#$%&()*+,-./:;<=>?@[\]^_`{|}~" + "'" + '"',
     numbers: "0123456789"
   }
-
-  var passwordCriteria = "";
 
   /* Checks to make sure the password is the correct length */
   var passwordLength = window.prompt("Please enter the length of your password: ");
@@ -34,36 +33,106 @@ function generatePassword() {
   var upperConfirm = window.confirm("Do you want numbers in your password?");
   var specialConfirm = window.confirm("Do you want special characters in your password?");
 
-  /* Builds the base string where you will get characters from */
-  if (numberConfirm) {
-    passwordCriteria += characters.numbers;
+  if (!(numberConfirm || lowerConfirm || upperConfirm || specialConfirm)) {
+    window.alert("You need to choose at least one criteria for your password, please try again.");
+  } else {
+    /* Builds the base string where you will get characters from */
+    if (numberConfirm) {
+      passwordCriteria += characters.numbers;
+    }
+    if (lowerConfirm) {
+      passwordCriteria += characters.lowercase;
+    }
+    if (upperConfirm) {
+      passwordCriteria += characters.uppercase;
+    }
+    if (specialConfirm) {
+      passwordCriteria += characters.specialCharacters;
+    }
+
+    /* Generates the random password */
+    var password = generateString(passwordCriteria, passwordLength);
+    var allPresent = {numberConfirm, lowerConfirm, upperConfirm, specialConfirm};
+
+    while (!checkIfAllPresent(allPresent, password, characters)) {
+      password = generateString(passwordCriteria, passwordLength);
+
+    }
+    
+    return password;
   }
-  if (lowerConfirm) {
-    passwordCriteria += characters.lowercase;
-  }
-  if (upperConfirm) {
-    passwordCriteria += characters.uppercase;
-  }
-  if (specialConfirm) {
-    passwordCriteria += characters.specialCharacters;
+}
+
+function checkIfAllPresent(allPresent, password, characters) {
+  var afterCheckPresent = true;
+  var checkArray = {numberConfirm: false, lowerConfirm: false, upperConfirm: false, specialConfirm: false};
+
+  // Check if numbers are present in the password
+  if (allPresent.numberConfirm) {
+    for (var i=0; i<password.length; i++) {
+      if (characters.numbers.includes(password[i])) {
+        checkArray.numberConfirm = true;
+      }
+    }
   }
 
-  /* Generates the random password */
-  var password="";
-  for (var i=0; i<passwordLength; i++) {
-    var randomInt = getRandomInt(passwordCriteria.length);
-    password += passwordCriteria[randomInt];
+  // Check if lowercase are present in the password
+  if (allPresent.lowerConfirm) {
+    for (var i=0; i<password.length; i++) {
+      if (characters.lowercase.includes(password[i])) {
+        checkArray.lowerConfirm = true;
+      }
+    }
   }
 
-  return password;
+    // Check if uppercase are present in the password
+    if (allPresent.upperConfirm) {
+      for (var i=0; i<password.length; i++) {
+        if (characters.uppercase.includes(password[i])) {
+          checkArray.upperConfirm = true;
+        }
+      }
+    }
+
+    // Check if uppercase are present in the password
+    if (allPresent.specialConfirm) {
+      for (var i=0; i<password.length; i++) {
+        if (characters.specialCharacters.includes(password[i])) {
+          checkArray.specialConfirm = true;
+        }
+      }
+    }
+    
+  // This checks the two boolean maps
+  var i=0;
+  while (afterCheckPresent && i<allPresent.length) {
+    if (allPresent[i] !== checkArray[i]) {
+      afterCheckPresent = false;
+    }
+    i++;
+  }
+
+  return afterCheckPresent;
 }
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+function generateString(criteria, passwordLength) {
+  var password="";
+  for (var i=0; i<passwordLength; i++) {
+    var randomInt = getRandomInt(criteria.length);
+    password += criteria[randomInt];
+  }
+  return password;
+}
+
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+
+// Add functionality for checking to make sure that the password has everything by checking what was generated and see if it has everything and then if not then keep generating until it does
 
 
 
