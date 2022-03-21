@@ -21,9 +21,11 @@ function generatePassword() {
 
   /* Checks to make sure the password is the correct length */
   var passwordLength = window.prompt("Please enter the length of your password: ");
-  if (passwordLength < 4) {
+  if (passwordLength % 1 !== 0) {
+    window.alert("You entered a decimal number, this generator only uses whole numbers. Please try again.");
+  } else if (Math.floor(passwordLength) < 8) {
     window.alert("Password must be equal to or longer than 8 characters. Please try again.");
-  } else if (passwordLength > 128) {
+  } else if (Math.floor(passwordLength) > 128) {
     window.alert("Password must be equal to or smaller than 128 characters. Please try again.");
   } else {
       /* Finds out which portions should be included in the base string from prompts to the user */
@@ -54,7 +56,6 @@ function generatePassword() {
   
       /* Checks to make sure that all user requirements are present in the randomized password */
       while (!checkIfAllPresent(allPresent, password, characters)) {
-        console.log("REMADE PASSWORD");
         password = generateString(passwordCriteria, passwordLength);
       }
       
@@ -102,7 +103,6 @@ function checkIfAllPresent(allPresent, password, characters) {
       }
     }
   }
-
     
   // This checks the two boolean maps
   var i=0;
@@ -116,14 +116,11 @@ function checkIfAllPresent(allPresent, password, characters) {
   return afterCheckPresent;
 }
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
+// Generates the password string using random integers
 function generateString(criteria, passwordLength) {
   var password="";
   for (var i=0; i<passwordLength; i++) {
-    var randomInt = getRandomInt(criteria.length);
+    var randomInt = Math.floor(Math.random() * criteria.length);
     password += criteria[randomInt];
   }
   return password;

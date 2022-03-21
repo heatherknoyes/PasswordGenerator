@@ -2,8 +2,7 @@
 
 ## Description
 
-// edit here
-The motivation for this project was to learn how to read through an existing code base, and to make changes to make it more readable without affecting the overall functionality and look of the website. In this project I refactored an existing code base of the HTML code to have more semantic elements and to be more accessible. In addition, I also refactored the CSS code base to reflect the changes that were done in the HTML code, reordered elements to be in a semantic structure, and consolidated pieces of code for a more streamlined code base. With the completion of this project I fulfilled the following user acceptance criteria.
+The motivation for this project was to create the JavaScript logic behind a password generator. By using simple techniques of arrays, pre-defined functions, logical statements, and creating my own functions I learned how to manipulate data to check if requirements have been fulfilled. I also learned how to manipulate and handle user input and response to determine what data is outputted to the user. The thing I am most proud of with this project is that I was able to implement logic to check if the user criteria had been met with the password. I did this by testing a password with four characters and making sure that the password was regenerated if there were four criteria until all four criteria had been met for the password. With the completion of this project I fulfilled the following user acceptance criteria.
 
 ```
 GIVEN I need a new, secure password
@@ -23,8 +22,7 @@ WHEN the password is generated
 THEN the password is either displayed in an alert or written to the page
 ```
 
-// edit here
-This project taught me how I can expect to potentially see websites as they come through in the real world and be able to edit the code base to bring it up to the standards of today. This is extremely important for accessibility standards as well as time to market for future edits if the website were to be worked on.
+This project taught me introductory techniques on I can take input from a user and use it to output messaging to the user. In the future, I would try to incorporate the user messaging into a more UI friendly manner such that the prompt does not show OK/Cancel but either has a listener on a toggle in the UI or has a checkbox that I could read. This would make the UX more appealing and intelligent than the prompt way that it is today.
 
 ## Installation
 
@@ -36,15 +34,15 @@ This project taught me how I can expect to potentially see websites as they come
 
 ## Usage
 
-The following image shows the web application's appearance in three different screenshots:
+The following image shows the web application's appearance in a screenshot:
 
-![The Horiseon webpage in a full screenshot.](./assets/images/websiteScreenshot.png)
+![The password generator webpage in a full screenshot.](./assets/images/websiteScreenshot.png)
 
-You can view the deployed application here: https://heatherknoyes.github.io/HoriseonRefactor/
+You can view the deployed application here: https://heatherknoyes.github.io/PasswordGenerator/
 
 ## Credits
 
-Credit to the GT Coding Bootcamp for providing the base code for this project.
+Credit to the GT Coding Bootcamp for providing the base HTML/CSS code for this project.
 
 ## License
 
