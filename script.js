@@ -21,7 +21,9 @@ function generatePassword() {
 
   /* Checks to make sure the password is the correct length */
   var passwordLength = window.prompt("Please enter the length of your password: ");
-  if (passwordLength % 1 !== 0) {
+  if (typeof passwordLength !== "number") {
+    window.alert("You entered an incorrect input, this generator only uses whole numbers. Please try again.");
+  } else if (passwordLength % 1 !== 0) {
     window.alert("You entered a decimal number, this generator only uses whole numbers. Please try again.");
   } else if (Math.floor(passwordLength) < 8) {
     window.alert("Password must be equal to or longer than 8 characters. Please try again.");
